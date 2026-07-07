@@ -1,0 +1,74 @@
+[project]
+name = "fast-api-production-template"
+version = "0.1.0"
+description = "Production-ready FastAPI template: layered architecture (routers/services/repositories/models), JWT auth + refresh tokens + RBAC, Alembic migrations, Prometheus metrics, health probes."
+authors = [{ name = "Frédéric Dong", email = "frederic.dong.compte@gmail.com" }]
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+dependencies = [
+    "alembic>=1.18.5",
+    "fastapi>=0.139.0",
+    "loguru>=0.7.3",
+    "prometheus-client>=0.25.0",
+    "psycopg[binary]>=3.3.4",
+    "pwdlib[argon2]>=0.3.0",
+    "pydantic>=2.13.4",
+    "pydantic-settings>=2.14.2",
+    "pyjwt>=2.13.0",
+    "slowapi>=0.1.10",
+    "sqlalchemy>=2.0.51",
+    "uvicorn>=0.50.0",
+]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+# ─── Mypy strict ──────────────────────────────────────────
+[tool.mypy]
+strict = true
+python_version = "3.10"
+warn_unreachable = true
+warn_unused_ignores = true
+# disallow_any_explicit disabled: pydantic's mypy plugin synthesizes
+# __init__(**data: Any) on every BaseModel, which this flag rejects.
+disallow_any_generics = true
+no_implicit_reexport = true
+
+# ─── Ruff (linter + formatter) ────────────────────────────
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = [
+    "E", "W",   # pycodestyle
+    "F",        # pyflakes
+    "I",        # isort
+    "N",        # pep8-naming
+    "UP",       # pyupgrade
+    "B",        # flake8-bugbear
+    "ANN",      # flake8-annotations (force les annotations)
+    "RUF",      # ruff-specific
+]
+
+# ─── Pytest ───────────────────────────────────────────────
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-v --strict-markers --cov=fast_api_production_template --cov-report=term-missing"
+
+[tool.coverage.report]
+fail_under = 90
+exclude_lines = ["pragma: no cover", "raise NotImplementedError"]
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28.1",
+    "mypy>=2.1.0",
+    "pre-commit>=3.7",
+    "pytest>=9.1.0",
+    "pytest-cov>=7.1.0",
+    "ruff>=0.15.17",
+]
