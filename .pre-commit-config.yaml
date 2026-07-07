@@ -1,0 +1,34 @@
+# Scoped config for project/pytype-strict-template/ only.
+# Run standalone from the repo root with:
+#   pre-commit run --config project/pytype-strict-template/.pre-commit-config.yaml --all-files
+# The monorepo git hook uses /.pre-commit-config.yaml at the repo root instead.
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+        files: ^project/pytype-strict-template/
+      - id: end-of-file-fixer
+        files: ^project/pytype-strict-template/
+      - id: check-yaml
+        files: ^project/pytype-strict-template/
+      - id: check-added-large-files
+      - id: check-merge-conflict
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.5.0
+    hooks:
+      - id: ruff
+        files: ^project/pytype-strict-template/
+        args: [--fix]
+      - id: ruff-format
+        files: ^project/pytype-strict-template/
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.19.1
+    hooks:
+      - id: mypy
+        name: mypy (pytype-strict-template)
+        files: ^project/pytype-strict-template/
+        args: [--strict]
+        additional_dependencies: [beartype, pytest, pytest-mock, pydantic]
