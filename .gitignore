@@ -28,10 +28,15 @@ env/
 .coverage
 htmlcov/
 
+# Type checker / linter caches
+.mypy_cache/
+.ruff_cache/
+
+# SQLite (dev database)
+*.db
+*.db.bak
+*.sqlite3
+
 # Logs
 *.log
 logs/
-
-.coverage
-*.egg-info/
-.github/
