@@ -87,4 +87,4 @@ def test_logout_revokes_refresh(client: TestClient, db_session: Session) -> None
 def test_register_after_seed_no_pk_collision(client: TestClient, seeded: Session) -> None:
     resp = client.post("/auth/register", json={"username": "dave", "password": "password123"})
     assert resp.status_code == 201, resp.text
-    assert resp.json()["id"] != 1 
+    assert resp.json()["id"] != 1
